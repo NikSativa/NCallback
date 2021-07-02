@@ -33,14 +33,12 @@ public extension Callback {
         }
     }
 
-    func onSyncedComplete(options: CallbackOption = .default, _ callback: () -> Void) where ResultType == Ignorable {
-        let semaphore = DispatchSemaphore(value: 0)
-
-        onComplete(options: options) { _ in
-            semaphore.signal()
+    func onSyncedComplete(options: CallbackOption = .default,
+                          timeout: CallbackTimeout? = nil,
+                          _ callback: () -> Void) where ResultType == Ignorable {
+        onSyncedComplete(options: options,
+                         timeout: timeout) { _ in
+            callback()
         }
-        semaphore.wait()
-
-        callback()
     }
 }

@@ -19,6 +19,17 @@ public enum CallbackOption: Equatable {
 
 public typealias ResultCallback<Response, Error: Swift.Error> = Callback<Result<Response, Error>>
 
+public struct CallbackTimeout {
+    public let seconds: Double
+    public let callback: () -> Void
+
+    public init(seconds: Double,
+                callback: @escaping () -> Void) {
+        self.seconds = seconds
+        self.callback = callback
+    }
+}
+
 public class Callback<ResultType> {
     public typealias Completion = (_ result: ResultType) -> Void
     public typealias ServiceClosure = (Callback) -> Void
@@ -116,7 +127,9 @@ public class Callback<ResultType> {
         start(self)
     }
 
-    public func onSyncedComplete(options: CallbackOption = .default, _ callback: Completion) {
+    public func onSyncedComplete(options: CallbackOption = .default,
+                                 timeout: CallbackTimeout? = nil,
+                                 _ callback: Completion) {
         let semaphore = DispatchSemaphore(value: 0)
         var result: ResultType!
 
@@ -124,9 +137,19 @@ public class Callback<ResultType> {
             result = $0
             semaphore.signal()
         }
-        semaphore.wait()
 
-        callback(result)
+        if let timeout = timeout {
+            let timeoutResult = semaphore.wait(timeout: .now() + timeout.seconds)
+            switch timeoutResult {
+            case .success:
+                callback(result)
+            case .timedOut:
+                timeout.callback()
+            }
+        } else {
+            semaphore.wait()
+            callback(result)
+        }
     }
 
     public func andThen<T>(_ waiter: @escaping (ResultType) -> Callback<T>) -> Callback<(ResultType, T)> {
