@@ -1,2 +1,2 @@
-github "NikSativa/NSpry.git" "carthage"
-github "NikSativa/NQueue.git" "carthage"
+github "NikSativa/NSpry.git" ~> 1.2.5
+github "NikSativa/NQueue.git" ~> 1.1.9

@@ -1,6 +1,5 @@
 import Foundation
 import NQueue
-import UIKit
 
 import Nimble
 import NSpry

@@ -1,6 +1,5 @@
 import Foundation
 import NSpry
-import UIKit
 
 internal extension Result {
     var error: Failure? {
