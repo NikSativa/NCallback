@@ -8,8 +8,9 @@ public class PendingCallback<ResultType> {
     public typealias ServiceClosure = Callback.ServiceClosure
     public typealias Completion = Callback.Completion
 
-    @Atomic
-    private var isInProgress: Bool = false
+    private var isInProgress: Bool {
+        return cached != nil
+    }
 
     @Atomic
     private var cached: Callback?
@@ -22,11 +23,6 @@ public class PendingCallback<ResultType> {
     }
 
     public init() {
-        _isInProgress = Atomic(wrappedValue: false,
-                               mutex: Mutex.pthread(.recursive),
-                               read: .sync,
-                               write: .sync)
-
         _cached = Atomic(wrappedValue: nil,
                          mutex: Mutex.pthread(.recursive),
                          read: .sync,
@@ -43,14 +39,7 @@ public class PendingCallback<ResultType> {
 
     public func current(_ closure: () -> Callback) -> Callback {
         return $cached.mutate { cached in
-            let computed: Callback
-            if let cached = cached {
-                computed = cached
-            } else {
-                computed = closure()
-                cached = computed
-            }
-
+            let computed = cached ?? closure()
             return .init(start: { [weak self, computed] actual in
                 guard let self = self else {
                     actual.waitCompletion(of: computed)
@@ -60,16 +49,14 @@ public class PendingCallback<ResultType> {
                 if self.isInProgress {
                     computed.deferred(actual.complete)
                 } else {
-                    self.isInProgress = true
-
                     computed.beforeComplete { [weak self] result in
-                        self?.isInProgress = false
                         self?.cached = nil
                         self?.beforeCallback?(result)
                     }
                     .deferred { [weak self] result in
                         self?.deferredCallback?(result)
                     }
+                    .assign(to: &self.cached)
                     .onComplete(options: .weakness) { result in
                         actual.complete(result)
                     }
@@ -84,7 +71,6 @@ public class PendingCallback<ResultType> {
     }
 
     public func cancel() {
-        isInProgress = false
         cached?.cleanup()
         cached = nil
     }
