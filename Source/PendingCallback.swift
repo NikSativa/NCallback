@@ -8,10 +8,6 @@ public class PendingCallback<ResultType> {
     public typealias ServiceClosure = Callback.ServiceClosure
     public typealias Completion = Callback.Completion
 
-    private var isInProgress: Bool {
-        return cached != nil
-    }
-
     @Atomic
     private var cached: Callback?
 
@@ -46,7 +42,7 @@ public class PendingCallback<ResultType> {
                     return
                 }
 
-                if self.isInProgress {
+                if self.isPending {
                     computed.deferred(actual.complete)
                 } else {
                     computed.beforeComplete { [weak self] result in

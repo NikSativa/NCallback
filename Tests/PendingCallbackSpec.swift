@@ -145,8 +145,8 @@ final class PendingCallbackSpec: QuickSpec {
                         expect(actual).toNot(be(callback))
                     }
 
-                    it("should be in the pending state") {
-                        expect(subject.isPending).to(beTrue())
+                    it("should not be in the pending state") {
+                        expect(subject.isPending).to(beFalse())
                     }
 
                     context("cancel") {
@@ -154,25 +154,35 @@ final class PendingCallbackSpec: QuickSpec {
                             subject.cancel()
                         }
 
-                        it("should be clear") {
+                        it("should not be in the pending state") {
                             expect(subject.isPending).to(beFalse())
                         }
                     }
 
-                    context("complete") {
+                    context("onComplete") {
                         var result: Int!
 
                         beforeEach {
                             actual.onComplete { result = $0 }
-                            subject.complete(1)
                         }
 
-                        it("should receive result") {
-                            expect(result) == 1
+                        it("should be in the pending state") {
+                            expect(subject.isPending).to(beTrue())
+                            expect(result).to(beNil())
                         }
 
-                        it("should be clear") {
-                            expect(subject.isPending).to(beFalse())
+                        context("complete") {
+                            beforeEach {
+                                subject.complete(1)
+                            }
+
+                            it("should receive result") {
+                                expect(result) == 1
+                            }
+
+                            it("should be clear") {
+                                expect(subject.isPending).to(beFalse())
+                            }
                         }
                     }
                 }
