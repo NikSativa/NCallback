@@ -163,7 +163,13 @@ final class PendingCallbackSpec: QuickSpec {
                         var result: Int!
 
                         beforeEach {
-                            actual.onComplete { result = $0 }
+                            actual.onComplete {
+                                result = $0
+                            }
+                        }
+
+                        afterEach {
+                            result = nil
                         }
 
                         it("should be in the pending state") {
