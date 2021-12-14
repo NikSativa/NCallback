@@ -1,10 +1,5 @@
 import Foundation
 
-private enum State<R> {
-    case pending
-    case value(R)
-}
-
 public func zip<Response>(_ input: Callback<Response>...) -> Callback<[Response]> {
     return zip(input)
 }
@@ -14,33 +9,25 @@ public func zip<Response>(_ input: [Callback<Response>]) -> Callback<[Response]>
         return .init(result: [])
     }
 
-    var array = input
-    var result: [State<Response>] = Array(repeating: .pending, count: array.count)
-    let startTask: Callback<[Response]>.ServiceClosure = { original in
-        for info in array.enumerated() {
-            let offset = info.offset
-            info.element.onComplete(options: .weakness) { [weak original] response in
-                result.insert(.value(response), at: offset)
+    let infos: [Info<Response>] = input.map {
+        return Info(original: $0)
+    }
 
-                let actual: [Response] = result.compactMap {
-                    switch $0 {
-                    case .pending:
-                        return nil
-                    case .value(let r):
-                        return r
-                    }
-                }
-
-                if array.count == actual.count {
-                    original?.complete(actual)
-                    array.removeAll()
+    let startTask: Callback<[Response]>.ServiceClosure = { [infos] original in
+        for info in infos {
+            info.start { [weak original] in
+                let responses: [Response] = infos.compactMap(\.result)
+                if infos.count == responses.count {
+                    original?.complete(responses)
                 }
             }
         }
     }
 
     let stopTask: Callback<[Response]>.ServiceClosure = { _ in
-        array.removeAll()
+        for info in infos {
+            info.stop()
+        }
     }
 
     return .init(start: startTask,
@@ -127,4 +114,40 @@ public func zipTuple<ResponseA, ResponseB>(_ lhs: Callback<ResponseA>,
     }
 
     return .init(start: startTask)
+}
+
+private final class Info<R> {
+    enum State {
+        case pending
+        case value(R)
+    }
+
+    private var original: Callback<R>?
+    private var state: State = .pending
+    var result: R? {
+        switch state {
+        case .pending:
+            return nil
+        case .value(let r):
+            return r
+        }
+    }
+
+    init(original: Callback<R>) {
+        self.original = original
+    }
+
+    func start(_ completion: @escaping () -> Void) {
+        assert(original != nil)
+
+        original?.onComplete(options: .weakness) { [weak self] result in
+            self?.state = .value(result)
+            self?.stop()
+            completion()
+        }
+    }
+
+    func stop() {
+        original = nil
+    }
 }

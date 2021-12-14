@@ -35,22 +35,27 @@ public class PendingCallback<ResultType> {
 
     public func current(_ closure: () -> Callback) -> Callback {
         return $cached.mutate { cached in
-            let computed = cached ?? closure()
-            return .init(start: { [weak self, computed] actual in
+            let info = Info(original: cached ?? closure())
+            return .init(start: { [weak self, info] actual in
                 guard let self = self else {
-                    actual.waitCompletion(of: computed)
+                    assert(info.original != nil)
+                    info.original?.onComplete(actual.complete)
                     return
                 }
 
-                if self.isPending {
-                    computed.deferred(actual.complete)
+                if let _ = self.cached {
+                    info.original?.deferred { [info] result in
+                        actual.complete(result)
+                        info.stop()
+                    }
                 } else {
-                    computed.beforeComplete { [weak self] result in
+                    info.original?.beforeComplete { [weak self] result in
                         self?.cached = nil
                         self?.beforeCallback?(result)
                     }
-                    .deferred { [weak self] result in
+                    .deferred { [weak self, info] result in
                         self?.deferredCallback?(result)
+                        info.stop()
                     }
                     .assign(to: &self.cached)
                     .onComplete(options: .weakness) { result in
@@ -89,5 +94,17 @@ public class PendingCallback<ResultType> {
             callback(result)
         }
         return self
+    }
+}
+
+private final class Info<R> {
+    private(set) var original: Callback<R>?
+
+    init(original: Callback<R>) {
+        self.original = original
+    }
+
+    func stop() {
+        original = nil
     }
 }
