@@ -11,7 +11,7 @@ final class CallbackWrapper<Value> {
     private(set) var started: Int = 0
 
     init() {
-        real = .init(start: { [weak self] _ in
+        self.real = .init(start: { [weak self] _ in
             self?.started += 1
         }, stop: { [weak self] _ in
             self?.stopped += 1

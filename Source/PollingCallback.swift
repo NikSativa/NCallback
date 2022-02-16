@@ -61,7 +61,7 @@ final class PollingCallback<ResultType> {
 
     private func canWait() -> Bool {
         if let minimumWaitingTime = minimumWaitingTime {
-            return max(Self.timestamp() - self.timestamp, 0) < minimumWaitingTime
+            return max(Self.timestamp() - timestamp, 0) < minimumWaitingTime
         }
         return false
     }
@@ -81,7 +81,7 @@ final class PollingCallback<ResultType> {
 
         cachingNew().onComplete(options: .repeatable(.weakness)) { [unowned self, weak actual] result in
             guard let actual = actual else {
-                assert(false, "we hit a snag!")
+                assertionFailure("we hit a snag!")
                 return
             }
 

@@ -43,7 +43,7 @@ final class FakeCallback<ResultType>: Callback<ResultType>, Spryable {
 
     var onComplete: Completion?
     override func onComplete(options: CallbackOption = .default, _ callback: @escaping Completion) {
-        self.onComplete = callback
+        onComplete = callback
         return spryify(arguments: options, callback)
     }
 
@@ -58,14 +58,14 @@ final class FakeCallback<ResultType>: Callback<ResultType>, Spryable {
     var deferred: Completion?
     @discardableResult
     override func deferred(_ callback: @escaping Completion) -> Callback<ResultType> {
-        self.deferred = callback
+        deferred = callback
         return spryify(arguments: callback)
     }
 
     var beforeComplete: Completion?
     @discardableResult
     override func beforeComplete(_ callback: @escaping Completion) -> Callback<ResultType> {
-        self.beforeComplete = callback
+        beforeComplete = callback
         return spryify(arguments: callback)
     }
 
