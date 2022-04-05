@@ -153,6 +153,20 @@ public class Callback<ResultType> {
         }
     }
 
+    public func on<Response, Error: Swift.Error>(options: CallbackOption = .default,
+                                                 success: @escaping (Response) -> Void,
+                                                 fail: @escaping (Error) -> Void)
+    where ResultType == Result<Response, Error> {
+        onComplete(options: options) { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure(let error):
+                fail(error)
+            }
+        }
+    }
+
     public func andThen<T>(_ waiter: @escaping (ResultType) -> Callback<T>) -> Callback<(ResultType, T)> {
         let lazy = LazyGenerator(generator: waiter)
         return .init(start: { actual in
