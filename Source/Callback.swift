@@ -308,6 +308,32 @@ public class Callback<ResultType> {
     }
 
     @discardableResult
+    public func deferredSuccess<Response, Error: Swift.Error>(_ success: @escaping (Response) -> Void) -> Callback<ResultType>
+    where ResultType == Result<Response, Error> {
+        return deferred { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure:
+                break
+            }
+        }
+    }
+
+    @discardableResult
+    public func deferredFail<Response, Error: Swift.Error>(_ fail: @escaping (Error) -> Void) -> Callback<ResultType>
+    where ResultType == Result<Response, Error> {
+        return deferred { result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                fail(error)
+            }
+        }
+    }
+
+    @discardableResult
     public func beforeComplete(_ callback: @escaping Completion) -> Callback<ResultType> {
         mutex.sync {
             let originalCallback = beforeCallback
@@ -318,6 +344,32 @@ public class Callback<ResultType> {
         }
 
         return self
+    }
+
+    @discardableResult
+    public func beforeSuccess<Response, Error: Swift.Error>(_ success: @escaping (Response) -> Void) -> Callback<ResultType>
+    where ResultType == Result<Response, Error> {
+        return beforeComplete { result in
+            switch result {
+            case .success(let response):
+                success(response)
+            case .failure:
+                break
+            }
+        }
+    }
+
+    @discardableResult
+    public func beforeFail<Response, Error: Swift.Error>(_ fail: @escaping (Error) -> Void) -> Callback<ResultType>
+    where ResultType == Result<Response, Error> {
+        return beforeComplete { result in
+            switch result {
+            case .success:
+                break
+            case .failure(let error):
+                fail(error)
+            }
+        }
     }
 
     // MARK: - ResultCallback
