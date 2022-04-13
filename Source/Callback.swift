@@ -269,7 +269,7 @@ public class Callback<ResultType> {
         }
     }
 
-    public func map<NewResponse, Response, Error: Swift.Error>(_ mapper: @escaping (Response) -> NewResponse) -> ResultCallback<[NewResponse], Error>
+    public func mapEach<NewResponse, Response, Error: Swift.Error>(_ mapper: @escaping (Response) -> NewResponse) -> ResultCallback<[NewResponse], Error>
     where ResultType == Result<[Response], Error> {
         return flatMap {
             return $0.map {
