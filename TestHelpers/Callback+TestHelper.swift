@@ -3,8 +3,6 @@ import NSpry
 
 @testable import NCallback
 
-extension MemoryOption: SpryEquatable {
-}
+extension MemoryOption: SpryEquatable {}
 
-extension CallbackOption: SpryEquatable {
-}
+extension CallbackOption: SpryEquatable {}

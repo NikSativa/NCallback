@@ -1,10 +1,8 @@
 import Foundation
 
-private func makeVoid() {
-}
+private func makeVoid() {}
 
-private func makeVoid<T>(_: T) -> Void {
-}
+private func makeVoid<T>(_: T) -> Void {}
 
 public extension Callback {
     func complete() where ResultType == Void {
