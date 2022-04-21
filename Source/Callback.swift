@@ -448,6 +448,18 @@ public class Callback<ResultType> {
         }
     }
 
+    public func recoverNil<Response, Error: Swift.Error>(_ value: Response) -> ResultCallback<Response, Error>
+    where ResultType == Result<Response?, Error> {
+        return flatMap {
+            switch $0 {
+            case .success(let v):
+                return .success(v ?? value)
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+    }
+
     public func filterNils<Response>() -> Callback<[Response]>
     where ResultType == [Response?] {
         return flatMap { result in
