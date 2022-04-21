@@ -303,6 +303,25 @@ public class Callback<ResultType> {
         }
     }
 
+    public func tryMapEach<NewResponse, Response, Error: Swift.Error>(_ mapper: @escaping (Response) throws -> NewResponse) -> ResultCallback<[NewResponse], Swift.Error>
+    where ResultType == Result<[Response], Error> {
+        return flatMap {
+            do {
+                switch $0 {
+                case .success(let response):
+                    let new = try response.map {
+                        return try mapper($0)
+                    }
+                    return .success(new)
+                case .failure(let error):
+                    return .failure(error)
+                }
+            } catch {
+                return .failure(error)
+            }
+        }
+    }
+
     public func mapError<Response, Error: Swift.Error, NewError: Swift.Error>(_ mapper: @escaping (Error) -> NewError) -> ResultCallback<Response, NewError>
     where ResultType == Result<Response, Error> {
         return flatMap {
