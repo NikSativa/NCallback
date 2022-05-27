@@ -34,8 +34,8 @@ public func zip<Response>(_ input: [Callback<Response>]) -> Callback<[Response]>
                  stop: stopTask)
 }
 
-public func zipErroredTuple<ResponseA, ResponseB, Error: Swift.Error>(lhs: ResultCallback<ResponseA, Error>,
-                                                                      rhs: ResultCallback<ResponseB, Error>) -> ResultCallback<(lhs: ResponseA, rhs: ResponseB), Error> {
+public func zipErrored<ResponseA, ResponseB, Error: Swift.Error>(_ lhs: ResultCallback<ResponseA, Error>,
+                                                                 _ rhs: ResultCallback<ResponseB, Error>) -> ResultCallback<(lhs: ResponseA, rhs: ResponseB), Error> {
     let startTask: ResultCallback<(lhs: ResponseA, rhs: ResponseB), Error>.ServiceClosure = { original in
         var a: Result<ResponseA, Error>?
         var b: Result<ResponseB, Error>?
