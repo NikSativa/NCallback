@@ -18,21 +18,27 @@ let package = Package(
     ],
     targets: [
         .target(name: "NCallback",
-                dependencies: ["NQueue"],
+                dependencies: [
+                    "NQueue"
+                ],
                 path: "Source"),
         .target(name: "NCallbackTestHelpers",
-                dependencies: ["NCallback",
-                               "NSpry"],
+                dependencies: [
+                    "NCallback",
+                    "NSpry"
+                ],
                 path: "TestHelpers"),
         .testTarget(name: "NCallbackTests",
-                    dependencies: ["NCallback",
-                                   "NCallbackTestHelpers",
-                                   "NQueue",
-                                   .product(name: "NQueueTestHelpers", package: "NQueue"),
-                                   "NSpry",
-                                   .product(name: "NSpry_Nimble", package: "NSpry"),
-                                   "Nimble",
-                                   "Quick"],
+                    dependencies: [
+                        "NCallback",
+                        "NCallbackTestHelpers",
+                        "NQueue",
+                        .product(name: "NQueueTestHelpers", package: "NQueue"),
+                        "NSpry",
+                        .product(name: "NSpry_Nimble", package: "NSpry"),
+                        "Nimble",
+                        "Quick"
+                    ],
                     path: "Tests")
     ]
 )

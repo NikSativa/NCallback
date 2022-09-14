@@ -13,18 +13,19 @@ public func sync<T>(_ callback: Callback<T>,
 public func sync<T>(_ callback: Callback<T>,
                     seconds: Double? = nil,
                     timeoutResult timeout: () -> T) -> T {
-    let semaphore = DispatchSemaphore(value: 0)
+    let group = DispatchGroup()
     var result: T!
 
+    group.enter()
     callback.onComplete(options: .selfRetained) {
         result = $0
-        semaphore.signal()
+        group.leave()
     }
 
     assert(seconds.map { $0 > 0 } ?? true, "seconds must be nil or greater than 0")
 
     if let seconds = seconds, seconds > 0 {
-        let timeoutResult = semaphore.wait(timeout: .now() + seconds)
+        let timeoutResult = group.wait(timeout: .now() + seconds)
         switch timeoutResult {
         case .success:
             break
@@ -32,7 +33,7 @@ public func sync<T>(_ callback: Callback<T>,
             result = timeout()
         }
     } else {
-        semaphore.wait()
+        group.wait()
     }
 
     return result
