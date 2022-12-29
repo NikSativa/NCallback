@@ -1,5 +1,4 @@
 import Foundation
-
 @testable import NCallback
 @testable import NCallbackTestHelpers
 

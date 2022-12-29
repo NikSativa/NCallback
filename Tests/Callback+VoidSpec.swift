@@ -1,9 +1,7 @@
 import Foundation
-
 import Nimble
 import NSpry
 import Quick
-
 @testable import NCallback
 @testable import NCallbackTestHelpers
 

@@ -1,10 +1,8 @@
 import Foundation
-import NQueue
-
 import Nimble
+import NQueue
 import NSpry
 import Quick
-
 @testable import NCallback
 @testable import NCallbackTestHelpers
 

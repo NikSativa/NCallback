@@ -1,8 +1,6 @@
 import Foundation
-import NCallback
 import NQueue
 import NSpry
-
 @testable import NCallback
 
 typealias FakeResultCallback<Response, Error: Swift.Error> = FakeCallback<Result<Response, Error>>

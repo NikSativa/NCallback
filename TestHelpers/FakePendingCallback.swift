@@ -1,6 +1,5 @@
 import Foundation
 import NSpry
-
 @testable import NCallback
 
 public typealias FakeResultPendingCallback<Response, Error: Swift.Error> = FakePendingCallback<Result<Response, Error>>
