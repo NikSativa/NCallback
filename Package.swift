@@ -1,18 +1,18 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.6
 
 import PackageDescription
 
 // swiftformat:disable all
 let package = Package(
     name: "NCallback",
-    platforms: [.iOS(.v12), .macOS(.v10_12)],
+    platforms: [.iOS(.v13), .macOS(.v10_15)],
     products: [
         .library(name: "NCallback", targets: ["NCallback"]),
         .library(name: "NCallbackTestHelpers", targets: ["NCallbackTestHelpers"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "5.0.1")),
-        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "10.0.0")),
+        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "6.1.0")),
+        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "11.2.1")),
         .package(url: "https://github.com/NikSativa/NQueue.git", .upToNextMajor(from: "1.1.14")),
         .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "1.2.10"))
     ],
