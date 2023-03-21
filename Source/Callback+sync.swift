@@ -24,7 +24,7 @@ public func sync<T>(_ callback: Callback<T>,
 
     assert(seconds.map { $0 > 0 } ?? true, "seconds must be nil or greater than 0")
 
-    if let seconds = seconds, seconds > 0 {
+    if let seconds, seconds > 0 {
         let timeoutResult = group.wait(timeout: .now() + seconds)
         switch timeoutResult {
         case .success:

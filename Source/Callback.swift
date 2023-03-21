@@ -249,7 +249,7 @@ public class Callback<ResultType> {
         completeCallback = { [weak copy, weak self] result in
             originalCallback?(result)
 
-            if let copy = copy {
+            if let copy {
                 (self?.taskQueue ?? copy.taskQueue).forceAsync {
                     copy.complete(mapper(result))
                 }

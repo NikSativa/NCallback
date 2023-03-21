@@ -15,8 +15,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "6.1.0")),
         .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "11.2.1")),
-        .package(url: "https://github.com/NikSativa/NQueue.git", .upToNextMajor(from: "1.1.16")),
-        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "1.3.2"))
+        .package(url: "https://github.com/NikSativa/NQueue.git", .upToNextMajor(from: "1.1.17")),
+        .package(url: "https://github.com/NikSativa/NSpry.git", .upToNextMajor(from: "1.3.3"))
     ],
     targets: [
         .target(name: "NCallback",

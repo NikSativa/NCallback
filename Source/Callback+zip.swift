@@ -41,7 +41,7 @@ public func zipErrored<ResponseA, ResponseB, Error: Swift.Error>(_ lhs: ResultCa
         var b: Result<ResponseB, Error>?
 
         let check = { [weak lhs, weak rhs, weak original] in
-            if let a = a, let b = b {
+            if let a, let b {
                 switch (a, b) {
                 case (.success(let a), .success(let b)):
                     let result: (ResponseA, ResponseB) = (a, b)
@@ -50,7 +50,7 @@ public func zipErrored<ResponseA, ResponseB, Error: Swift.Error>(_ lhs: ResultCa
                      (.failure(let a), _):
                     original?.complete(a)
                 }
-            } else if let a = a {
+            } else if let a {
                 switch a {
                 case .success:
                     break
@@ -58,7 +58,7 @@ public func zipErrored<ResponseA, ResponseB, Error: Swift.Error>(_ lhs: ResultCa
                     original?.complete(e)
                     rhs?.cleanup()
                 }
-            } else if let b = b {
+            } else if let b {
                 switch b {
                 case .success:
                     break
@@ -96,7 +96,7 @@ public func zipTuple<ResponseA, ResponseB>(_ lhs: Callback<ResponseA>,
 
     let startTask: Callback<(ResponseA, ResponseB)>.ServiceClosure = { original in
         let check = { [weak original] in
-            if let a = a, let b = b {
+            if let a, let b {
                 let result = (a, b)
                 original?.complete(result)
             }

@@ -37,7 +37,7 @@ public class PendingCallback<ResultType> {
         return $cached.mutate { cached in
             let info = Info(original: cached ?? closure())
             return .init(start: { [weak self, info] actual in
-                guard let self = self else {
+                guard let self else {
                     assert(info.original != nil)
                     info.original?.onComplete(actual.complete)
                     return

@@ -2,7 +2,7 @@ import Foundation
 
 private func makeVoid() {}
 
-private func makeVoid<T>(_: T) -> Void {}
+private func makeVoid(_: some Any) {}
 
 public extension Callback {
     func complete() where ResultType == Void {

@@ -60,7 +60,7 @@ final class PollingCallback<ResultType> {
     }
 
     private func canWait() -> Bool {
-        if let minimumWaitingTime = minimumWaitingTime {
+        if let minimumWaitingTime {
             return max(Self.timestamp() - timestamp, 0) < minimumWaitingTime
         }
         return false
@@ -80,19 +80,19 @@ final class PollingCallback<ResultType> {
         }
 
         cachingNew().onComplete(options: .repeatable(.weakness)) { [unowned self, weak actual] result in
-            guard let actual = actual else {
+            guard let actual else {
                 assertionFailure("we hit a snag!")
                 return
             }
 
-            if self.isCanceled {
+            if isCanceled {
                 return
             }
 
-            self.response(result)
+            response(result)
 
-            if self.canRepeat(retryCount), self.shouldRepeat(result) {
-                self.schedulePolling(actual, retryCount: retryCount - 1)
+            if canRepeat(retryCount), shouldRepeat(result) {
+                schedulePolling(actual, retryCount: retryCount - 1)
             } else {
                 actual.complete(result)
             }
@@ -101,8 +101,8 @@ final class PollingCallback<ResultType> {
 
     private func schedulePolling(_ actual: Callback<ResultType>, retryCount: Int) {
         scheduleQueue.asyncAfter(deadline: .now() + max(idleTimeInterval, .leastNormalMagnitude)) { [self, weak actual] in
-            if let actual = actual {
-                self.startPolling(actual, retryCount: retryCount)
+            if let actual {
+                startPolling(actual, retryCount: retryCount)
             }
         }
     }
