@@ -3,8 +3,12 @@ import NQueue
 import NSpry
 @testable import NCallback
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 typealias FakeResultCallback<Response, Error: Swift.Error> = FakeCallback<Result<Response, Error>>
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 final class FakeCallback<ResultType>: Callback<ResultType>, Spryable {
     enum ClassFunction: String, StringRepresentable {
         case success = "success(_:)"

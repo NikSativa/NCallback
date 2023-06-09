@@ -1,5 +1,7 @@
 import Foundation
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 @discardableResult
 public func sync<T>(_ callback: Callback<T>,
                     seconds: Double? = nil,
@@ -9,6 +11,8 @@ public func sync<T>(_ callback: Callback<T>,
                 timeoutResult: timeout)
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 @discardableResult
 public func sync<T>(_ callback: Callback<T>,
                     seconds: Double? = nil,

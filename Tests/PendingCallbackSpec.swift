@@ -1,18 +1,21 @@
 import Foundation
 import Nimble
 import NSpry
-import NSpry_Nimble
+import NSpryNimble
 import Quick
+
 @testable import NCallback
 @testable import NCallbackTestHelpers
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 final class PendingCallbackSpec: QuickSpec {
     private enum Constant {
         static let sharedBehavior = "PendingCallback Behavior"
         static let sharedInitialState = "PendingCallback Initial State"
     }
 
-    override func spec() {
+    override class func spec() {
         describe("PendingCallback") {
             var callback: FakeCallback<Int>!
             var subject: PendingCallback<Int>!

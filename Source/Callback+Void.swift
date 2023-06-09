@@ -4,6 +4,8 @@ private func makeVoid() {}
 
 private func makeVoid(_: some Any) {}
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public extension Callback {
     func complete() where ResultType == Void {
         complete(makeVoid())

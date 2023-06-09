@@ -1,7 +1,10 @@
 import Foundation
+
 @testable import NCallback
 @testable import NCallbackTestHelpers
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 final class CallbackWrapper<Value> {
     private(set) var real: Callback<Value>!
 

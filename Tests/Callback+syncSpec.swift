@@ -3,9 +3,12 @@ import Nimble
 import NQueue
 import NSpry
 import Quick
+
 @testable import NCallback
 @testable import NCallbackTestHelpers
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 final class Callback_syncSpec: QuickSpec {
     private enum Value: Equatable, SpryEquatable {
         case idle
@@ -13,7 +16,7 @@ final class Callback_syncSpec: QuickSpec {
         case correct
     }
 
-    override func spec() {
+    override class func spec() {
         describe("Callback+sync") {
             var result: Value!
             var subject: CallbackWrapper<Value>!

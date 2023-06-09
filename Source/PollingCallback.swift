@@ -5,6 +5,8 @@ private let defaultScheduleQueue: Queueable = Queue.custom(label: "PollingCallba
                                                            qos: .utility,
                                                            attributes: .concurrent)
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 final class PollingCallback<ResultType> {
     private let generator: () -> Callback<ResultType>
     private var cached: Callback<ResultType>?

@@ -17,8 +17,12 @@ public enum CallbackOption: Equatable {
     public static let selfRetained: CallbackOption = .oneOff(.selfRetained)
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public typealias ResultCallback<Response, Error: Swift.Error> = Callback<Result<Response, Error>>
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public class Callback<ResultType> {
     public typealias Completion = (_ result: ResultType) -> Void
     public typealias ServiceClosure = (Callback) -> Void
@@ -521,6 +525,8 @@ public class Callback<ResultType> {
 
 // MARK: - Hashable
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 extension Callback: Hashable {
     public func hash(into hasher: inout Hasher) {
         hashKey.map { hasher.combine($0) } ?? hasher.combine(ObjectIdentifier(self))
@@ -540,6 +546,8 @@ extension Callback: Hashable {
     }
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 private final class LazyGenerator<In, Out> {
     typealias Generator = (In) -> Callback<Out>
     private let generator: Generator

@@ -2,9 +2,12 @@ import Foundation
 import Nimble
 import NSpry
 import Quick
+
 @testable import NCallback
 @testable import NCallbackTestHelpers
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 private typealias ResultSubjectWrapper<Value, Error: Swift.Error> = SubjectWrapper<Result<Value, Error>>
 
 private enum TestError: Swift.Error, Equatable {
@@ -16,6 +19,8 @@ private enum TestError2: Swift.Error, Equatable {
     case anyError
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 private final class SubjectWrapper<Value> {
     private(set) weak var weakValue: Callback<Value>?
     var value: Callback<Value>!
@@ -46,8 +51,10 @@ private final class SubjectWrapper<Value> {
     }
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 final class CallbackSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("Callback") {
             describe("Simple Callback") {
                 var wrapper: SubjectWrapper<Int>!

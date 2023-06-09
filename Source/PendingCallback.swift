@@ -1,8 +1,12 @@
 import Foundation
 import NQueue
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public typealias PendingResultCallback<Response, Error: Swift.Error> = PendingCallback<Result<Response, Error>>
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public class PendingCallback<ResultType> {
     public typealias Callback = NCallback.Callback<ResultType>
     public typealias ServiceClosure = Callback.ServiceClosure
@@ -97,6 +101,8 @@ public class PendingCallback<ResultType> {
     }
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 private final class Info<R> {
     private(set) var original: Callback<R>?
 

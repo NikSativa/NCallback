@@ -1,9 +1,13 @@
 import Foundation
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public func zip<Response>(_ input: Callback<Response>...) -> Callback<[Response]> {
     return zip(input)
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public func zip<Response>(_ input: [Callback<Response>]) -> Callback<[Response]> {
     if input.isEmpty {
         return .init(result: [])
@@ -34,6 +38,8 @@ public func zip<Response>(_ input: [Callback<Response>]) -> Callback<[Response]>
                  stop: stopTask)
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public func zipErrored<ResponseA, ResponseB, Error: Swift.Error>(_ lhs: ResultCallback<ResponseA, Error>,
                                                                  _ rhs: ResultCallback<ResponseB, Error>) -> ResultCallback<(lhs: ResponseA, rhs: ResponseB), Error> {
     let startTask: ResultCallback<(lhs: ResponseA, rhs: ResponseB), Error>.ServiceClosure = { original in
@@ -89,6 +95,8 @@ public func zipErrored<ResponseA, ResponseB, Error: Swift.Error>(_ lhs: ResultCa
                  stop: stopTask)
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 public func zipTuple<ResponseA, ResponseB>(_ lhs: Callback<ResponseA>,
                                            _ rhs: Callback<ResponseB>) -> Callback<(ResponseA, ResponseB)> {
     var a: ResponseA?
@@ -116,6 +124,8 @@ public func zipTuple<ResponseA, ResponseB>(_ lhs: Callback<ResponseA>,
     return .init(start: startTask)
 }
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 private final class Info<R> {
     enum State {
         case pending

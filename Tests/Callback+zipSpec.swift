@@ -2,11 +2,14 @@ import Foundation
 import Nimble
 import NSpry
 import Quick
+
 @testable import NCallback
 @testable import NCallbackTestHelpers
 
+@available(iOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
+@available(macOS, deprecated, message: "moved to new framework 'DefferedTask' at https://github.com/NikSativa/NDefferedTask")
 final class Callback_ZipSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         describe("Callback") {
             describe("zip") {
                 var result: (Int, Bool)!
